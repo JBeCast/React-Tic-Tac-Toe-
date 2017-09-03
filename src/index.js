@@ -92,9 +92,13 @@ class Game extends React.Component {
       const coords = indexToCoords(step.move);
       const letter = (move % 2) ? 'X' : 'O';
       const desc = move ? `Move #${move}: ${letter} ${coords}` : 'Game start';
-      return <li key={move}>
-        <a href="#" onClick={() => {this.jumpTo(move)}}>{desc}</a>
-      </li>
+      return (
+        <li key={move}>
+          <a href="#" className={move === this.state.stepNumber ? 'currentMove' : ''}
+            onClick={() => {this.jumpTo(move)}}>{desc}
+          </a>
+        </li>
+      )
     });
 
     let status;
