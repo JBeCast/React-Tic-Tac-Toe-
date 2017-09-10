@@ -46,7 +46,7 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor() {
     super();
-    this.state = {
+    this.initState = {
       history: [{
         squares: Array(9).fill(null),
         move: null
@@ -55,7 +55,9 @@ class Game extends React.Component {
       xIsNext: true,
       movesReversed: false
     }
+    this.state = Object.assign({}, this.initState);
   }
+
 
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
@@ -114,6 +116,11 @@ class Game extends React.Component {
     else if (this.state.stepNumber >= 9) status = 'Draw!';
     else status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
+    let resetButton = null;
+    if (winner || history.length === 10) {
+      resetButton = <button onClick={() => {this.setState(Object.assign({}, this.initState))}}>RESET</button>;
+    }
+
     return (
       <div className="game">
         <div className="game-board">
@@ -125,6 +132,7 @@ class Game extends React.Component {
         </div>
         <div className="game-info">
           <div>{status}</div>
+          <div>{resetButton}</div>
           <h4 id="history">History</h4>
           <ol>{moves}</ol>
           <button onClick={() => {this.reverseMoves()}}>
